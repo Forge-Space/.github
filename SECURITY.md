@@ -43,6 +43,7 @@ All repositories under the [Forge-Space](https://github.com/Forge-Space) organiz
 - **brand-guide** -- Brand identity library and site
 - **siza-gen** -- UI generation engine
 - **siza-desktop** -- Electron desktop client
+- **forgespace-web** -- Platform marketing site
 
 ### Out of Scope
 

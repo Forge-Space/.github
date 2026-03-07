@@ -1,8 +1,8 @@
 # Forge Space
 
-> **The open-source AI-powered development platform.**
+> **The accessible Internal Developer Platform.**
 >
-> Build, generate, and ship production-ready UI at the speed of thought — powered by the Model Context Protocol.
+> Prompt-to-prod with conscience — AI-powered development with built-in governance, quality gates, and MCP-native extensibility.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![MCP](https://img.shields.io/badge/Protocol-MCP-8B5CF6)](https://modelcontextprotocol.io)
@@ -13,110 +13,132 @@
 
 ---
 
-## What is Forge Space?
+## Why Forge Space?
 
-Forge Space is an ecosystem of open-source tools that brings AI-powered UI generation directly into your development workflow. By leveraging the [Model Context Protocol (MCP)](https://modelcontextprotocol.io), every component in the Forge Space platform speaks the same language — enabling seamless integration between AI agents, your IDE, and your design tools.
+Teams adopt AI and ship faster — but guardrails lag behind. Prototypes ship, quality and security debt accumulates invisibly, and nobody owns the governance gap. We call this **AI limbo engineering**.
 
-The platform is built around three core pillars:
+Forge Space is an open-source IDP that bakes engineering conscience into every AI-assisted workflow:
 
-- **Generate** — describe what you want, get production-ready UI code
-- **Integrate** — connect any MCP-compatible AI tool through a single gateway
-- **Ship** — deploy on a zero-cost, self-hosted architecture
+- **Govern** — a single gateway boundary with JWT auth, RBAC, and audit logging
+- **Generate** — AI-powered code generation with post-generation quality checks
+- **Enforce** — scorecards, policy packs, and secret scanning in CI
+- **Extend** — MCP-native hub-and-spoke architecture for pluggable tooling
+
+We're not replacing enterprise platform teams. We're the **IDP for the rest of us** — platform-grade guardrails without requiring a dedicated platform team.
 
 ---
 
 ## Repositories
 
-### [UI](https://github.com/Forge-Space/UI) — UIForge Web Application
+### Platform
 
-The flagship web application. A zero-cost AI-powered UI generation platform where you describe a component or page in natural language and receive production-ready code in return.
+#### [Siza](https://github.com/Forge-Space/siza) — AI Workspace + Governance Dashboard
 
-**Tech stack:** Next.js 15 · React 18 · Supabase · TypeScript · shadcn/ui · Tailwind CSS · Turborepo
+The flagship web application. Describe what you want, get production-ready code — with quality scorecards, policy enforcement, and governance dashboards built in.
+
+**Tech stack:** Next.js 15 · React 19 · Supabase · Cloudflare Workers · Turborepo · shadcn/ui
 
 **Key features:**
 - AI-powered component and page generation via BYOK (Bring Your Own Key)
+- Quality scorecards with green/yellow/red signals per project
+- Policy engine enforcement (security, quality, compliance rules)
+- Admin audit dashboard with filterable event logs
 - Monaco code editor with live preview and export
-- Real-time collaboration via Supabase subscriptions
+- Stripe billing with usage tracking and plan limits
 - Email/password + OAuth authentication
-- 100% free-tier architecture (scales to 50,000 users)
 
 ```bash
-git clone https://github.com/Forge-Space/UI.git
-cd UI && npm install && npm run dev
+git clone https://github.com/Forge-Space/siza.git
+cd siza && npm install && npm run dev
 ```
+
+#### [Forge Space Web](https://github.com/Forge-Space/forgespace-web) — Marketing + Docs
+
+Platform marketing site and IDP documentation hub with 3D hero, design tokens, and IDP navigation.
+
+**Tech stack:** Next.js 15 · React 19 · Tailwind 4 · Three.js · @forgespace/brand-guide
 
 ---
 
-### [ui-mcp](https://github.com/Forge-Space/ui-mcp) — UIForge MCP Server
+### Governance & Routing
 
-The AI engine behind Forge Space. A full-featured [Model Context Protocol](https://modelcontextprotocol.io) server that exposes 12 tools for generating UI from natural language, screenshots, Figma files, and more — usable from any MCP-compatible IDE or agent.
+#### [MCP Gateway](https://github.com/Forge-Space/mcp-gateway) — Central Governance Hub
 
-**Tech stack:** TypeScript · MCP SDK · Docker · Figma API · satori · resvg
+The single governance boundary for all AI tool calls. A hub-and-spoke MCP routing gateway with authentication, authorization, policy enforcement, and audit logging.
 
-**Tools provided:**
+**Tech stack:** Python · FastAPI · Docker · jose JWT · SQLite
 
-| Tool | Description |
-|------|-------------|
-| `scaffold_full_application` | Generate full project boilerplate (React, Next.js, Vue, Angular, HTML) |
-| `generate_ui_component` | Create or iterate components with style-aware generation |
-| `generate_prototype` | Interactive HTML prototypes with navigation |
-| `generate_design_image` | SVG/PNG mockups and wireframes |
-| `image_to_component` | Convert screenshots to framework-specific code |
-| `generate_page_template` | Pre-built page templates (landing, dashboard, auth, CRUD…) |
-| `refine_component` | Iterative improvement via natural language feedback |
-| `audit_accessibility` | WCAG 2.1 compliance audit with fix suggestions |
-| `fetch_design_inspiration` | Extract visual metadata from URLs |
-| `analyze_design_references` | Detect patterns from design references |
-| `figma_context_parser` | Read Figma files, extract tokens, map to Tailwind |
-| `figma_push_variables` | Write design tokens back to Figma as Variables |
+**Governance features:**
+- **JWT Authentication** — jose-based, Edge-compatible, Supabase JWKS integration
+- **RBAC** — 4 roles (viewer, developer, admin, super_admin) with 16 granular permissions
+- **Audit API** — paginated, filterable event logs with `/audit/events` and `/audit/summary`
+- **Context Propagation** — user ID, roles, and permissions forwarded to every spoke
+- **Transport Abstraction** — stdio and HTTP transports for MCP spoke communication
 
-**Quick start (NPX):**
-```bash
-npx -y uiforge-mcp@latest
-```
-
-**IDE configuration:**
-```json
-{
-  "mcpServers": {
-    "uiforge-mcp": {
-      "command": "npx",
-      "args": ["-y", "uiforge-mcp@latest"],
-      "env": {
-        "FIGMA_ACCESS_TOKEN": "your_token_here"
-      }
-    }
-  }
-}
-```
-
----
-
-### [mcp-gateway](https://github.com/Forge-Space/mcp-gateway) — Forge MCP Gateway
-
-A self-hosted MCP aggregation gateway built on [IBM Context Forge](https://github.com/IBM/mcp-context-forge). Connect your IDE to the gateway once and manage all your upstream MCP servers — including `ui-mcp` — through a single Admin UI.
-
-**Tech stack:** Docker · IBM Context Forge · Python · FastAPI · SQLite · TypeScript
-
-**Key features:**
+**Routing features:**
 - Single connection point for all MCP servers
 - Web-based Admin UI for managing servers, tools, and virtual servers
 - Built-in translate layer: converts stdio-only servers to SSE/HTTP
-- 15+ pre-configured local MCP servers (sequential-thinking, Playwright, filesystem, GitHub, Postgres, memory, and more)
-- Intelligent tool-router for dynamic AI-powered tool selection
-- JWT authentication with automatic refresh
+- 15+ pre-configured local MCP servers (sequential-thinking, Playwright, filesystem, GitHub, and more)
+- AI-powered tool routing with feedback loops
+
+```bash
+git clone https://github.com/Forge-Space/mcp-gateway.git
+cd mcp-gateway && cp .env.example .env
+make start && make register
+```
+
+#### [Forge Patterns](https://github.com/Forge-Space/core) — Standards + CLI Tools
+
+Shared standards, configurations, and CLI tools for the ecosystem. Includes the policy engine, scorecard system, and a VSCode extension.
+
+**Key features:**
+- **`forge-scorecard` CLI** — run quality scorecards in CI with threshold exit codes
+- **`forge-policy` CLI** — evaluate governance policies with `--fail-on-block`
+- **Policy Engine** — schema-driven evaluator with built-in security, quality, and compliance rules
+- **Scorecard Aggregator** — 4 collectors (security, quality, deps, operations) with weighted scoring
+- **VSCode Extension** — workspace utilities for the Forge Space ecosystem
+
+```bash
+npm install @forgespace/core
+npx forge-scorecard --format summary
+npx forge-policy --config .policy.json --fail-on-block
+```
+
+---
+
+### Generation Engine
+
+#### [siza-gen](https://github.com/Forge-Space/siza-gen) — AI Generation Engine
+
+Multi-framework code generation (React, Vue, Angular, Svelte), 502-snippet component registry, ML-powered quality scoring, vector search, and context assembly for BYOK prompt enrichment.
+
+Available on [npm](https://www.npmjs.com/package/@forgespace/siza-gen).
+
+#### [Siza MCP](https://github.com/Forge-Space/ui-mcp) — MCP Server for UI Generation
+
+21 MCP tools for generating UI from natural language, screenshots, Figma files, and more. Template packs, brand integration, and vector search. Usable from any MCP-compatible IDE or agent.
 
 **Quick start:**
 ```bash
-git clone https://github.com/Forge-Space/mcp-gateway.git
-cd mcp-gateway
-cp .env.example .env
-# Edit .env: set PLATFORM_ADMIN_EMAIL, PLATFORM_ADMIN_PASSWORD, JWT_SECRET_KEY, AUTH_ENCRYPTION_SECRET
-make start
-make register
+npx -y @forgespace/ui-mcp@latest
 ```
 
-**Admin UI:** http://localhost:4444/admin
+---
+
+### Design & Brand
+
+#### [Branding MCP](https://github.com/Forge-Space/branding-mcp) — Brand Identity MCP Tools
+
+9 tools and 10 generators for AI-powered brand identity creation. WCAG-validated color systems, built-in Forge Space template.
+
+#### [Brand Guide](https://github.com/Forge-Space/brand-guide) — Brand Identity as Code
+
+Forge Space brand system hosted at [brand.forgespace.co](https://brand.forgespace.co). Logo variants, color palettes, typography, and an npm library for programmatic access.
+
+```bash
+npm install @forgespace/brand-guide
+```
 
 ---
 
@@ -124,31 +146,53 @@ make register
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                        Your IDE / AI Agent                   │
-│                   (Cursor, Windsurf, Claude…)                │
+│                    Your IDE / AI Agent                       │
+│                 (Cursor, Windsurf, Claude...)                │
 └───────────────────────────┬─────────────────────────────────┘
                             │ Single MCP connection
                             ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                      mcp-gateway                            │
-│              (IBM Context Forge + Tool Router)              │
+│                      MCP Gateway                            │
+│            (Central Governance Boundary)                    │
+│                                                             │
+│  ┌────────────┐  ┌────────────┐  ┌────────────┐           │
+│  │ JWT Auth   │  │ RBAC       │  │ Audit Log  │           │
+│  │ (jose)     │  │ (4 roles)  │  │ (events)   │           │
+│  └────────────┘  └────────────┘  └────────────┘           │
 │                                                             │
 │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐  │
-│  │ ui-mcp   │  │ Playwright│  │ GitHub   │  │ Memory   │  │
-│  │(UIForge) │  │          │  │          │  │          │  │
+│  │ ui-mcp   │  │Playwright│  │ GitHub   │  │ Memory   │  │
+│  │ (Siza)   │  │          │  │          │  │          │  │
 │  └──────────┘  └──────────┘  └──────────┘  └──────────┘  │
 │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐  │
-│  │ Tavily   │  │ Postgres │  │filesystem│  │ + more…  │  │
+│  │ Tavily   │  │ Postgres │  │filesystem│  │ + more...│  │
 │  └──────────┘  └──────────┘  └──────────┘  └──────────┘  │
 └─────────────────────────────────────────────────────────────┘
                             │
                             ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                   UI (UIForge Web App)                      │
-│          Next.js · Supabase · shadcn/ui · Monaco            │
+│                     Siza Web App                            │
+│        Next.js · Supabase · Cloudflare Workers              │
 │                                                             │
-│   [Describe UI] → [AI generates code] → [Live preview]     │
-│                     → [Export / Deploy]                     │
+│  ┌────────────┐  ┌────────────┐  ┌────────────┐           │
+│  │ AI Gen     │  │ Scorecards │  │ Policy     │           │
+│  │ (BYOK)     │  │ (quality)  │  │ (enforce)  │           │
+│  └────────────┘  └────────────┘  └────────────┘           │
+│                                                             │
+│  ┌────────────┐  ┌────────────┐  ┌────────────┐           │
+│  │ Audit UI   │  │ Feature    │  │ Billing    │           │
+│  │ (admin)    │  │ Flags      │  │ (Stripe)   │           │
+│  └────────────┘  └────────────┘  └────────────┘           │
+└─────────────────────────────────────────────────────────────┘
+                            │
+                            ▼
+┌─────────────────────────────────────────────────────────────┐
+│                    CI / CD Pipeline                          │
+│                                                             │
+│  forge-scorecard ──► Quality gates (green/yellow/red)       │
+│  forge-policy ────► Governance checks (allow/deny)          │
+│  Secret scanning ─► Zero secrets enforcement                │
+│  npm audit ───────► Dependency hygiene                      │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -156,47 +200,88 @@ make register
 
 ## Getting Started
 
-### Option A — Full stack (recommended)
+### Option A — Full Platform (recommended)
 
-Run all three services locally:
+Run the gateway + workspace locally:
 
 ```bash
-# 1. Start the MCP gateway (includes ui-mcp as a translate service)
+# 1. Start the governance gateway
 git clone https://github.com/Forge-Space/mcp-gateway.git
 cd mcp-gateway && cp .env.example .env
 make start && make register
 
 # 2. Point your IDE at the gateway
 # Run: make use-cursor-wrapper   (for Cursor)
-# Or copy the printed URL into your IDE's mcp.json
 
-# 3. Start the UIForge web app
-git clone https://github.com/Forge-Space/UI.git
-cd UI && npm install && npm run dev
+# 3. Start the Siza workspace
+git clone https://github.com/Forge-Space/siza.git
+cd siza && npm install && npm run dev
 # → http://localhost:3000
 ```
 
-### Option B — MCP server only
+### Option B — MCP Server Only
 
-Use `ui-mcp` standalone with any MCP-compatible IDE:
-
-```bash
-npx -y uiforge-mcp@latest
-```
-
-Add the server to your IDE config and start generating UI with natural language prompts.
-
-### Option C — Web app only
-
-Use UIForge with your own AI API keys (BYOK):
+Use Siza MCP standalone with any MCP-compatible IDE:
 
 ```bash
-git clone https://github.com/Forge-Space/UI.git
-cd UI && npm install
-cp apps/web/.env.example apps/web/.env.local
-# Set your Supabase credentials and API keys
-npm run dev
+npx -y @forgespace/ui-mcp@latest
 ```
+
+### Option C — Governance CLI Only
+
+Add quality gates and policy checks to any project's CI:
+
+```bash
+npm install @forgespace/core
+
+# Run scorecard checks
+npx forge-scorecard --format summary --threshold 60
+
+# Run policy enforcement
+npx forge-policy --config .policy.json --fail-on-block
+```
+
+---
+
+## Governance Features
+
+### Scorecards
+
+Quality scorecards provide green/yellow/red signals for codebases. Four collectors run checks across security, code quality, dependency hygiene, and operations:
+
+| Collector | Weight | Checks |
+|-----------|--------|--------|
+| Security | 30% | Zero secrets, secret scanning in CI |
+| Quality | 30% | Lint/format, unit test coverage |
+| Dependencies | 20% | SCA scanning, outdated deps |
+| Operations | 20% | Structured logs, runbook presence |
+
+### Policy Packs
+
+The "Forge Defaults" baseline policy pack enforces:
+
+- **Security** — zero committed secrets, dependency scanning in CI
+- **Quality** — lint/format enforcement, minimal unit tests for new modules
+- **Operations** — structured logs with correlation IDs, runbook presence
+- **Feature Flags** — risky features behind Unleash toggles
+
+### Audit Logging
+
+Every authenticated action flows through the gateway's audit system:
+
+- Paginated event log with user, action, and timestamp filtering
+- Summary endpoint for dashboards
+- Admin UI in the Siza workspace
+
+---
+
+## Roadmap
+
+| Phase | Timeline | Focus |
+|-------|----------|-------|
+| **Stabilize** | 0-3 months | Harden onboarding, baseline scorecards + policies in CI, docs parity |
+| **Grow** | 3-6 months | New spokes (security, infra, data), marketplace/registry, observability UX |
+| **Scale** | 6-12 months | Org-level policies + exemptions, cross-repo dashboards, multi-spoke workflows |
 
 ---
 
@@ -206,12 +291,12 @@ Forge Space is designed to run entirely for free:
 
 | Service | Provider | Free Tier |
 |---------|----------|-----------|
-| Web hosting | Cloudflare Pages | Unlimited bandwidth |
+| Web hosting | Cloudflare Workers | 100K req/day |
 | Database | Supabase | 500 MB · 50,000 MAU |
 | Storage | Supabase | 1 GB |
 | AI (fallback) | Google Gemini | 60 req/min |
 | MCP Gateway | Self-hosted | Unlimited |
-| MCP Server | Self-hosted / NPX | Unlimited |
+| Feature Flags | Unleash (self-hosted) | Unlimited |
 
 ---
 
@@ -249,5 +334,5 @@ All Forge Space repositories are released under the [MIT License](https://openso
 
 <div align="center">
   <strong>Built in the open by the Forge Space community.</strong><br>
-  Making AI-powered development accessible to everyone.
+  Platform-grade guardrails without requiring a dedicated platform team.
 </div>

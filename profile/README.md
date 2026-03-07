@@ -4,10 +4,10 @@
   </a>
 </p>
 
-<h3 align="center">The Developer Tools Ecosystem</h3>
+<h3 align="center">The Accessible Internal Developer Platform</h3>
 
 <p align="center">
-  From code generation to full-stack workspaces — we're building the <a href="https://modelcontextprotocol.io">MCP</a> ecosystem.
+  Prompt-to-prod with conscience — AI-powered development with built-in governance, quality gates, and <a href="https://modelcontextprotocol.io">MCP</a>-native extensibility.
 </p>
 
 <p align="center">
@@ -19,31 +19,39 @@
 
 ---
 
+### The problem
+
+Teams adopt AI and ship faster — but guardrails lag behind. Inconsistent quality, security gaps, and ungoverned infrastructure accumulate invisibly. We call it **AI limbo engineering**.
+
 ### What we build
 
-#### Core Platform
+Forge Space is an open-source IDP that bakes engineering conscience into every AI-assisted workflow: a single governance boundary, standardized golden paths, automatic quality checks, and MCP-native extensibility.
 
-**[Siza](https://github.com/Forge-Space/siza)** — The open full-stack AI workspace. Generate components, scaffold apps, and ship to production with any AI provider (BYOK). Built with Next.js, Supabase, and Cloudflare Workers.
+#### Platform
 
-**[Siza Desktop](https://github.com/Forge-Space/siza-desktop)** — Native desktop app with local AI generation via Ollama. Available for macOS, Windows, and Linux.
+**[Siza](https://github.com/Forge-Space/siza)** — Full-stack AI workspace with BYOK generation, quality scorecards, policy enforcement, and governance dashboards. Next.js + Supabase + Cloudflare Workers.
+
+**[Forge Space Web](https://github.com/Forge-Space/forgespace-web)** — Platform marketing site and IDP documentation hub. Next.js 15 + React 19 + Three.js.
+
+**[Siza Desktop](https://github.com/Forge-Space/siza-desktop)** — Native desktop app with local AI generation via Ollama. macOS, Windows, Linux.
+
+#### Governance & Routing
+
+**[MCP Gateway](https://github.com/Forge-Space/mcp-gateway)** — Hub-and-spoke MCP routing with JWT auth, RBAC, policy engine, audit logging, and an admin UI. The single governance boundary for all AI tool calls.
+
+**[Forge Patterns](https://github.com/Forge-Space/core)** — Shared standards, scorecard CLI, policy engine CLI, and a VSCode extension. The foundation that enforces consistency across the ecosystem.
 
 #### Generation Engine
 
-**[siza-gen](https://github.com/Forge-Space/siza-gen)** — AI generation engine powering Siza. Multi-framework code generation (React, Vue, Angular, Svelte), 502-snippet component registry, ML-powered quality scoring, and vector search. Available on [npm](https://www.npmjs.com/package/@forgespace/siza-gen).
+**[siza-gen](https://github.com/Forge-Space/siza-gen)** — AI generation engine. Multi-framework code generation, 502-snippet registry, ML quality scoring, and context assembly. Available on [npm](https://www.npmjs.com/package/@forgespace/siza-gen).
 
-**[Siza MCP](https://github.com/Forge-Space/ui-mcp)** — MCP server for AI-powered UI generation. 21 tools, template packs, brand integration, and vector search. Connect to any MCP-compatible AI client.
+**[Siza MCP](https://github.com/Forge-Space/ui-mcp)** — MCP server for AI-powered UI generation. 21 tools, template packs, brand integration. Connect to any MCP-compatible client.
 
-#### Infrastructure
+#### Design & Brand
 
-**[MCP Gateway](https://github.com/Forge-Space/mcp-gateway)** — Intelligent MCP tool routing hub. Aggregates 20+ MCP servers with AI-powered scoring, feedback loops, and an admin UI. Self-hosted with Docker.
+**[Branding MCP](https://github.com/Forge-Space/branding-mcp)** — MCP server for AI-powered brand identity generation. 9 tools, 10 generators, WCAG-validated color systems.
 
-**[Forge Patterns](https://github.com/Forge-Space/core)** — Shared standards, configs, and a VSCode extension for the ecosystem. The foundation that keeps everything consistent.
-
-#### Design Tools
-
-**[Branding MCP](https://github.com/Forge-Space/branding-mcp)** — MCP server for AI-powered brand identity generation. 9 tools, 10 generators, built-in Forge Space template. Create complete brand systems from a single prompt.
-
-**[Brand Guide](https://github.com/Forge-Space/brand-guide)** — Forge Space brand identity as code. Hosted at [brand.forgespace.co](https://brand.forgespace.co) with logo variants, color palettes, typography, and an npm library for programmatic access.
+**[Brand Guide](https://github.com/Forge-Space/brand-guide)** — Brand identity as code. Hosted at [brand.forgespace.co](https://brand.forgespace.co) with an npm library for programmatic access.
 
 ### Tech stack
 
@@ -59,26 +67,35 @@
   <img alt="MCP" src="https://img.shields.io/badge/MCP-Protocol-8B5CF6" />
 </p>
 
+### Roadmap
+
+| Phase | Timeline | Focus |
+|-------|----------|-------|
+| Stabilize | 0-3 months | Onboarding, baseline scorecards + policies in CI, docs |
+| Grow | 3-6 months | New spokes (security, infra, data), marketplace, observability UX |
+| Scale | 6-12 months | Org-level policies, cross-repo dashboards, multi-spoke workflows |
+
 ### Get started
 
 ```bash
-# Use Siza's generation engine
-npm install @forgespace/siza-gen
-
-# Or try the workspace
+# Use the AI workspace
 # https://forgespace.co
 
-# Clone and run locally
+# Or run locally
 git clone https://github.com/Forge-Space/siza.git
 cd siza && npm install && npm run dev
+
+# Run the governance gateway
+git clone https://github.com/Forge-Space/mcp-gateway.git
+cd mcp-gateway && cp .env.example .env && make start
 ```
 
 ### Contributing
 
-We welcome contributions across all repos. Each project has its own `CONTRIBUTING.md` with setup instructions and guidelines. Start with the issues labeled [`good first issue`](https://github.com/search?q=org%3AForge-Space+label%3A%22good+first+issue%22&type=issues).
+We welcome contributions across all repos. Each project has its own `CONTRIBUTING.md`. Start with issues labeled [`good first issue`](https://github.com/search?q=org%3AForge-Space+label%3A%22good+first+issue%22&type=issues).
 
 ---
 
 <p align="center">
-  <sub>Built in Brazil 🇧🇷 · MIT Licensed · <a href="mailto:support@forgespace.co">support@forgespace.co</a></sub>
+  <sub>Built in Brazil · MIT Licensed · <a href="mailto:support@forgespace.co">support@forgespace.co</a></sub>
 </p>
