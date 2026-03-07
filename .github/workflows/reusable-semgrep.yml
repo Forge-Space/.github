@@ -1,0 +1,28 @@
+name: Reusable Semgrep Scan
+
+on:
+  workflow_call:
+    inputs:
+      scan-paths:
+        description: Paths to scan (space-separated). Empty = full repo.
+        required: false
+        type: string
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  semgrep:
+    name: Semgrep Scan
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    container:
+      image: semgrep/semgrep
+    if: (github.actor != 'dependabot[bot]')
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Semgrep
+        env:
+          SCAN_PATHS: ${{ inputs.scan-paths }}
+        run: semgrep scan --config auto $SCAN_PATHS

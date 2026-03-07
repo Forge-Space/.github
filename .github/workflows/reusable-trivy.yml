@@ -1,0 +1,32 @@
+name: Reusable Trivy Scan
+
+on:
+  workflow_call:
+    inputs:
+      severity:
+        description: Severity levels to flag
+        required: false
+        type: string
+        default: "HIGH,CRITICAL"
+      scan-type:
+        description: Trivy scan type
+        required: false
+        type: string
+        default: "fs"
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  trivy:
+    name: Trivy Vulnerability Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: ${{ inputs.scan-type }}
+          severity: ${{ inputs.severity }}
+          exit-code: "1"
