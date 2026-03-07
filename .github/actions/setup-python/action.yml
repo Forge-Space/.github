@@ -1,0 +1,25 @@
+name: Setup Python
+description: Checkout, setup Python, and install dependencies
+
+inputs:
+  python-version:
+    description: Python version
+    required: false
+    default: "3.12"
+  install-command:
+    description: Install command
+    required: false
+    default: 'pip install -e ".[dev]"'
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v6
+      with:
+        python-version: ${{ inputs.python-version }}
+        cache: pip
+        cache-dependency-path: pyproject.toml
+    - name: Install dependencies
+      shell: bash
+      run: ${{ inputs.install-command }}
