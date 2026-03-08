@@ -1,0 +1,47 @@
+name: Reusable AI Security Review
+
+on:
+  workflow_call:
+    inputs:
+      claude-model:
+        description: Claude model to use for analysis
+        required: false
+        type: string
+        default: "claude-sonnet-4-6-20250514"
+      timeout:
+        description: Max analysis time in minutes
+        required: false
+        type: number
+        default: 10
+      exclude-directories:
+        description: Comma-separated directories to exclude
+        required: false
+        type: string
+        default: ""
+    secrets:
+      ANTHROPIC_API_KEY:
+        required: true
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  ai-security-review:
+    name: AI Security Review
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    if: (github.actor != 'dependabot[bot]')
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 2
+
+      - uses: anthropics/claude-code-security-review@main
+        with:
+          comment-pr: true
+          claude-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude-model: ${{ inputs.claude-model }}
+          claudecode-timeout: ${{ inputs.timeout }}
+          exclude-directories: ${{ inputs.exclude-directories }}
