@@ -1,0 +1,139 @@
+name: Reusable npm Publish
+
+on:
+  workflow_call:
+    inputs:
+      node-version:
+        description: Node.js version
+        required: false
+        type: string
+        default: "22"
+      build-command:
+        description: Build command (e.g. "npm run build" or "npm run build:lib")
+        required: false
+        type: string
+        default: "npm run build"
+      test-command:
+        description: Test command (empty to skip)
+        required: false
+        type: string
+        default: "npm test"
+      lint-command:
+        description: Lint command (empty to skip)
+        required: false
+        type: string
+        default: ""
+      typecheck-command:
+        description: Type check command (empty to skip)
+        required: false
+        type: string
+        default: ""
+      provenance:
+        description: Enable npm provenance attestation
+        required: false
+        type: boolean
+        default: true
+      dry-run:
+        description: Publish with --dry-run (no actual publish)
+        required: false
+        type: boolean
+        default: false
+      create-release:
+        description: Create GitHub Release after publish
+        required: false
+        type: boolean
+        default: true
+      install-command:
+        description: Install command
+        required: false
+        type: string
+        default: "npm ci"
+    secrets:
+      NPM_TOKEN:
+        required: true
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  validate:
+    name: Validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: npm
+      - run: ${{ inputs.install-command }}
+
+      - name: Lint
+        if: inputs.lint-command != ''
+        run: ${{ inputs.lint-command }}
+
+      - name: Type Check
+        if: inputs.typecheck-command != ''
+        run: ${{ inputs.typecheck-command }}
+
+      - name: Build
+        run: ${{ inputs.build-command }}
+
+      - name: Test
+        if: inputs.test-command != ''
+        run: ${{ inputs.test-command }}
+
+      - name: Security Audit
+        run: npm audit --audit-level high --omit dev || true
+
+  publish:
+    name: Publish
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: npm
+          registry-url: "https://registry.npmjs.org"
+      - run: ${{ inputs.install-command }}
+      - run: ${{ inputs.build-command }}
+
+      - name: Publish to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          PROVENANCE: ${{ inputs.provenance }}
+          DRY_RUN: ${{ inputs.dry-run }}
+        run: |
+          FLAGS="--access public"
+          if [ "$PROVENANCE" = "true" ]; then
+            FLAGS="$FLAGS --provenance"
+          fi
+          if [ "$DRY_RUN" = "true" ]; then
+            FLAGS="$FLAGS --dry-run"
+          fi
+          npm publish $FLAGS
+
+      - name: Verify publish
+        if: inputs.dry-run == false
+        run: |
+          PACKAGE=$(node -p "require('./package.json').name")
+          VERSION=$(node -p "require('./package.json').version")
+          sleep 5
+          npm view "$PACKAGE@$VERSION" version
+
+  release:
+    name: GitHub Release
+    needs: publish
+    if: inputs.create-release && inputs.dry-run == false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Get version
+        id: version
+        run: echo "version=v$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.version }}
+          generate_release_notes: true
