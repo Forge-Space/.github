@@ -11,6 +11,9 @@
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED)](https://www.docker.com/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen)](CONTRIBUTING.md)
 
+> Maintenance (2026-03-10): fixed `reusable-docker-build.yml` so Docker Hub
+> login guards do not use `secrets.*` directly in `if` expressions.
+
 ---
 
 ## Why Forge Space?
