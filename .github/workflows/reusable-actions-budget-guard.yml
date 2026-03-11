@@ -21,9 +21,6 @@ on:
         required: false
         type: string
         default: "85"
-    secrets:
-      github_token:
-        required: false
     outputs:
       usage_pct:
         description: Current-month usage percentage against monthly cap
@@ -71,7 +68,7 @@ jobs:
           MONTHLY_CAP_MINUTES: ${{ inputs.monthly_cap_minutes }}
           WARN_PCT: ${{ inputs.warn_pct }}
           DEGRADE_PCT: ${{ inputs.degrade_pct }}
-          GITHUB_TOKEN_INPUT: ${{ secrets.github_token }}
+          GITHUB_TOKEN_INPUT: ${{ secrets.GITHUB_TOKEN }}
         run: ./.workflow-source/.github/scripts/actions-budget-guard.sh
 
       - name: Job summary
