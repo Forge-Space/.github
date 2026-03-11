@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `reusable-actions-budget-guard.yml`: new reusable workflow that reads
+  organization Actions usage and emits `usage_pct`, `warn_mode`, `degrade_mode`,
+  and `summary` outputs for limit-aware CI orchestration.
+- `.github/scripts/actions-budget-guard.sh`: fail-open billing guard logic with
+  mockable payload support for deterministic test coverage.
+- `test-actions-budget-guard.yml`: workflow-level shell test harness validating
+  below-warn, warn-only, degrade, and API-failure scenarios.
+
 ### Fixed
 
 - `reusable-docker-build.yml`: replaced `secrets.*` usage in Docker Hub login

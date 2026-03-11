@@ -13,6 +13,9 @@
 
 > Maintenance (2026-03-10): fixed `reusable-docker-build.yml` so Docker Hub
 > login guards do not use `secrets.*` directly in `if` expressions.
+>
+> Infrastructure (2026-03-11): added `reusable-actions-budget-guard.yml` for
+> limit-aware GitHub Actions gating on new org/project bootstraps.
 
 ---
 
