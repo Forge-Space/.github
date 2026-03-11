@@ -21,3 +21,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `reusable-docker-build.yml`: replaced `secrets.*` usage in Docker Hub login
   `if` guard with env-backed checks to avoid workflow-file evaluation errors.
+- `reusable-actions-budget-guard.yml`: removed custom `github_token` workflow
+  secret declaration (reserved name) and now reads `secrets.GITHUB_TOKEN`
+  directly to prevent workflow-file validation failures on push.
