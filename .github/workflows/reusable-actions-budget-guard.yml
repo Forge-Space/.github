@@ -1,0 +1,78 @@
+name: Reusable Actions Budget Guard
+
+on:
+  workflow_call:
+    inputs:
+      org:
+        description: Organization slug used for billing usage lookup
+        required: true
+        type: string
+      monthly_cap_minutes:
+        description: Monthly GitHub Actions minutes budget cap
+        required: true
+        type: string
+      warn_pct:
+        description: Warn threshold percentage
+        required: false
+        type: string
+        default: "70"
+      degrade_pct:
+        description: Degrade threshold percentage
+        required: false
+        type: string
+        default: "85"
+    secrets:
+      github_token:
+        required: false
+    outputs:
+      usage_pct:
+        description: Current-month usage percentage against monthly cap
+        value: ${{ jobs.guard.outputs.usage_pct }}
+      warn_mode:
+        description: Warn mode flag
+        value: ${{ jobs.guard.outputs.warn_mode }}
+      degrade_mode:
+        description: Degrade mode flag
+        value: ${{ jobs.guard.outputs.degrade_mode }}
+      summary:
+        description: Human-readable budget guard summary
+        value: ${{ jobs.guard.outputs.summary }}
+
+permissions:
+  contents: read
+
+jobs:
+  guard:
+    name: Actions Budget Guard
+    runs-on: ubuntu-latest
+    outputs:
+      usage_pct: ${{ steps.evaluate.outputs.usage_pct }}
+      warn_mode: ${{ steps.evaluate.outputs.warn_mode }}
+      degrade_mode: ${{ steps.evaluate.outputs.degrade_mode }}
+      summary: ${{ steps.evaluate.outputs.summary }}
+    steps:
+      - name: Resolve workflow source
+        id: source
+        run: |
+          echo "repo=${GITHUB_WORKFLOW_REF%%/.github/workflows/*}" >> "$GITHUB_OUTPUT"
+          echo "ref=${GITHUB_WORKFLOW_REF##*@}" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout workflow source
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ steps.source.outputs.repo }}
+          ref: ${{ steps.source.outputs.ref }}
+          path: .workflow-source
+
+      - name: Evaluate Actions usage against cap
+        id: evaluate
+        env:
+          ORG: ${{ inputs.org }}
+          MONTHLY_CAP_MINUTES: ${{ inputs.monthly_cap_minutes }}
+          WARN_PCT: ${{ inputs.warn_pct }}
+          DEGRADE_PCT: ${{ inputs.degrade_pct }}
+          GITHUB_TOKEN_INPUT: ${{ secrets.github_token }}
+        run: ./.workflow-source/.github/scripts/actions-budget-guard.sh
+
+      - name: Job summary
+        run: echo "${{ steps.evaluate.outputs.summary }}" >> "$GITHUB_STEP_SUMMARY"

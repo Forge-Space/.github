@@ -1,0 +1,32 @@
+name: Test Actions Budget Guard
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/reusable-actions-budget-guard.yml'
+      - '.github/scripts/actions-budget-guard.sh'
+      - '.github/scripts/tests/**'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/reusable-actions-budget-guard.yml'
+      - '.github/scripts/actions-budget-guard.sh'
+      - '.github/scripts/tests/**'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  guard-tests:
+    name: Budget Guard Script Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate shell syntax
+        run: |
+          bash -n .github/scripts/actions-budget-guard.sh
+          bash -n .github/scripts/tests/actions-budget-guard.test.sh
+      - name: Run guard tests
+        run: .github/scripts/tests/actions-budget-guard.test.sh
