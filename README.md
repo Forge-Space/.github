@@ -16,6 +16,9 @@
 >
 > Infrastructure (2026-03-11): added `reusable-actions-budget-guard.yml` for
 > limit-aware GitHub Actions gating on new org/project bootstraps.
+>
+> CI Runtime (2026-03-13): upgraded reusable internals to `actions/checkout@v6`
+> and `actions/setup-node@v6` for Node24 readiness.
 
 ---
 

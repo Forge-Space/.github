@@ -55,7 +55,7 @@ jobs:
           echo "ref=${GITHUB_WORKFLOW_REF##*@}" >> "$GITHUB_OUTPUT"
 
       - name: Checkout workflow source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: ${{ steps.source.outputs.repo }}
           ref: ${{ steps.source.outputs.ref }}

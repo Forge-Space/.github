@@ -24,3 +24,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `reusable-actions-budget-guard.yml`: removed custom `github_token` workflow
   secret declaration (reserved name) and now reads `secrets.GITHUB_TOKEN`
   directly to prevent workflow-file validation failures on push.
+
+### Changed
+
+- Updated reusable workflow/action internals to Node24-ready action majors:
+  `actions/checkout@v6` and `actions/setup-node@v6` (no `workflow_call`
+  contract changes).
