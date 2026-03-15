@@ -12,9 +12,18 @@
 
 <p align="center">
   <a href="https://forgespace.co">Website</a> •
+  <a href="https://siza.forgespace.co">App</a> •
   <a href="https://github.com/orgs/Forge-Space/repositories?type=public">Repos</a> •
   <a href="https://www.npmjs.com/org/forgespace">npm</a> •
-  <a href="https://brand.forgespace.co">Brand Guide</a>
+  <a href="https://forgespace.co/startups">Startups</a>
+</p>
+
+<p align="center">
+  <img alt="Users" src="https://img.shields.io/badge/Users-834-7C3AED?style=flat" />
+  <img alt="Repos" src="https://img.shields.io/badge/Repos-9-7C3AED?style=flat" />
+  <img alt="Tests" src="https://img.shields.io/badge/Tests-2994%2B-7C3AED?style=flat" />
+  <img alt="License" src="https://img.shields.io/badge/License-MIT-7C3AED?style=flat" />
+  <img alt="MCP" src="https://img.shields.io/badge/MCP-native-7C3AED?style=flat" />
 </p>
 
 ---
@@ -79,7 +88,7 @@ Forge Space is an open-source IDP that bakes engineering conscience into every A
 
 ```bash
 # Use the AI workspace
-# https://forgespace.co
+# https://siza.forgespace.co
 
 # Or run locally
 git clone https://github.com/Forge-Space/siza.git
@@ -93,6 +102,10 @@ cd mcp-gateway && cp .env.example .env && make start
 ### Contributing
 
 We welcome contributions across all repos. Each project has its own `CONTRIBUTING.md`. Start with issues labeled [`good first issue`](https://github.com/search?q=org%3AForge-Space+label%3A%22good+first+issue%22&type=issues).
+
+### Partnerships
+
+We're applying to accelerator programs and actively seeking cloud infrastructure partnerships. If you're from Microsoft for Startups, Google for Startups, Cloudflare, Supabase, Vercel, or a dev-tools investor, [reach out](mailto:lucas.diassantana@gmail.com) or visit [forgespace.co/startups](https://forgespace.co/startups).
 
 ---
 
