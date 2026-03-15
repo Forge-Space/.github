@@ -19,9 +19,9 @@
 </p>
 
 <p align="center">
-  <img alt="Users" src="https://img.shields.io/badge/Users-834-7C3AED?style=flat" />
-  <img alt="Repos" src="https://img.shields.io/badge/Repos-9-7C3AED?style=flat" />
-  <img alt="Tests" src="https://img.shields.io/badge/Tests-2994%2B-7C3AED?style=flat" />
+  <a href="https://www.npmjs.com/package/@forgespace/siza-gen"><img alt="npm downloads" src="https://img.shields.io/npm/dm/@forgespace/siza-gen?label=siza-gen&color=7C3AED&style=flat" /></a>
+  <a href="https://www.npmjs.com/package/@forgespace/ui-mcp"><img alt="npm downloads" src="https://img.shields.io/npm/dm/@forgespace/ui-mcp?label=ui-mcp&color=7C3AED&style=flat" /></a>
+  <a href="https://www.npmjs.com/package/@forgespace/core"><img alt="npm downloads" src="https://img.shields.io/npm/dm/@forgespace/core?label=core&color=7C3AED&style=flat" /></a>
   <img alt="License" src="https://img.shields.io/badge/License-MIT-7C3AED?style=flat" />
   <img alt="MCP" src="https://img.shields.io/badge/MCP-native-7C3AED?style=flat" />
 </p>
