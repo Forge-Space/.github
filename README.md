@@ -287,6 +287,53 @@ Every authenticated action flows through the gateway's audit system:
 
 ---
 
+## Reusable Workflows
+
+This repository provides reusable GitHub Actions workflows for all Forge Space repos. Add a caller workflow to opt in.
+
+### CI & Security
+
+| Workflow | Purpose | Trigger |
+|----------|---------|---------|
+| `reusable-node-ci.yml` | Node.js lint, test, build, typecheck | `workflow_call` |
+| `reusable-semgrep.yml` | Semgrep static analysis | `workflow_call` |
+| `reusable-trivy.yml` | Trivy container/dependency scanning | `workflow_call` |
+| `reusable-secret-scan.yml` | Secret detection | `workflow_call` |
+| `reusable-ai-security-review.yml` | Claude-powered security review | `workflow_call` |
+| `reusable-docker-build.yml` | Docker image build + push | `workflow_call` |
+| `reusable-publish-npm.yml` | npm package publishing | `workflow_call` |
+| `reusable-actions-budget-guard.yml` | GitHub Actions usage monitoring | `workflow_call` |
+
+### PR Governance
+
+| Workflow | Purpose | Trigger |
+|----------|---------|---------|
+| `reusable-pr-governance.yml` | PR size labels (XS-XL) + conventional commit title lint | `workflow_call` |
+| `reusable-pr-labeler.yml` | Auto-label PRs by files changed | `workflow_call` |
+| `reusable-stale.yml` | Mark/close stale issues and PRs | `workflow_call` |
+
+### Composite Actions
+
+| Action | Purpose |
+|--------|---------|
+| `setup-node` | Standardized Node.js setup with caching |
+| `setup-python` | Standardized Python setup with caching |
+
+### Example: Adopting PR Governance
+
+```yaml
+# .github/workflows/pr-governance.yml
+name: PR Governance
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+jobs:
+  governance:
+    uses: Forge-Space/.github/.github/workflows/reusable-pr-governance.yml@main
+```
+
+---
+
 ## Roadmap
 
 | Phase | Timeline | Focus |
