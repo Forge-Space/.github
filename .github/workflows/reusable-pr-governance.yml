@@ -1,0 +1,67 @@
+name: PR Governance
+
+on:
+  workflow_call:
+
+# Security: This workflow uses only third-party actions with pinned versions.
+# No user-controlled inputs (PR title, body, etc.) are used in run: commands.
+
+jobs:
+  pr-size-label:
+    name: PR Size Label
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request_target' || github.event_name == 'pull_request'
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Label PR by size
+        uses: codelytv/pr-size-labeler@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          xs_label: 'size/XS'
+          xs_max_size: 10
+          s_label: 'size/S'
+          s_max_size: 100
+          m_label: 'size/M'
+          m_max_size: 400
+          l_label: 'size/L'
+          l_max_size: 800
+          xl_label: 'size/XL'
+          fail_if_xl: false
+          message_if_xl: >
+            This PR is very large (800+ lines). Consider breaking it into
+            smaller, focused PRs for faster and more thorough reviews.
+          files_to_ignore: |
+            package-lock.json
+            pnpm-lock.yaml
+            yarn.lock
+            *.snap
+            CHANGELOG.md
+
+  pr-title-lint:
+    name: PR Title Lint
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request_target' || github.event_name == 'pull_request'
+    steps:
+      - name: Validate conventional commit title
+        uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          types: |
+            feat
+            fix
+            refactor
+            docs
+            test
+            chore
+            ci
+            perf
+            security
+            style
+            revert
+          requireScope: false
+          subjectPattern: ^[a-z].+$
+          subjectPatternError: >
+            PR title subject must start with a lowercase letter.
+            Example: "feat: add user authentication"

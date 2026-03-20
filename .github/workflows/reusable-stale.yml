@@ -1,0 +1,54 @@
+name: Stale Issues and PRs
+
+on:
+  workflow_call:
+    inputs:
+      days-before-stale:
+        description: 'Days before marking as stale'
+        required: false
+        type: number
+        default: 30
+      days-before-close:
+        description: 'Days before closing stale items'
+        required: false
+        type: number
+        default: 14
+
+# Security: No user-controlled inputs used in run: commands.
+# All expressions reference only workflow inputs (trusted) and action parameters.
+
+jobs:
+  stale:
+    name: Mark stale issues and PRs
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Stale action
+        uses: actions/stale@v9
+        with:
+          days-before-stale: ${{ inputs.days-before-stale }}
+          days-before-close: ${{ inputs.days-before-close }}
+          stale-issue-label: 'stale'
+          stale-pr-label: 'stale'
+          stale-issue-message: >
+            This issue has been automatically marked as stale because it
+            has not had recent activity. It will be closed in
+            ${{ inputs.days-before-close }} days if no further activity
+            occurs. If this issue is still relevant, please comment to
+            keep it open.
+          stale-pr-message: >
+            This PR has been automatically marked as stale because it
+            has not had recent activity. It will be closed in
+            ${{ inputs.days-before-close }} days if no further activity
+            occurs. Please rebase and update if still relevant.
+          close-issue-message: >
+            This issue was closed because it has been stale for too long.
+            Feel free to reopen if still relevant.
+          close-pr-message: >
+            This PR was closed because it has been stale for too long.
+            Feel free to reopen with updated changes.
+          exempt-issue-labels: 'pinned,security,good first issue,help wanted'
+          exempt-pr-labels: 'pinned,security,do-not-close'
+          exempt-all-milestones: true
