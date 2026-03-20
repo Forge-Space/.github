@@ -1,0 +1,23 @@
+name: PR Auto-Labeler
+
+on:
+  workflow_call:
+
+# Security: No user-controlled inputs used in run: commands.
+# Labels are derived from file paths (trusted) via action config.
+
+jobs:
+  label:
+    name: Auto-label PR by files changed
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request_target' || github.event_name == 'pull_request'
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Label PR by area
+        uses: actions/labeler@v5
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          sync-labels: true
+          configuration-path: .github/labeler.yml

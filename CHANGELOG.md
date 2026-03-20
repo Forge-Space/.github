@@ -9,6 +9,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Org-level PR template** (`.github/PULL_REQUEST_TEMPLATE.md`): lean
+  What/Why/How format inspired by Next.js and Kubernetes, replacing
+  overly verbose repo-specific templates across the ecosystem.
+- **Org-level CONTRIBUTING.md**: unified contributing guide covering branch
+  naming, conventional commits, PR requirements, review process, and
+  development setup for all Forge Space repositories.
+- `reusable-pr-governance.yml`: PR size labeler (XS/S/M/L/XL via
+  codelytv/pr-size-labeler) + conventional commit title linter (via
+  amannn/action-semantic-pull-request). XL PRs get a comment suggesting
+  they be split.
+- `reusable-stale.yml`: stale issue/PR management (via actions/stale)
+  with configurable timeouts (default 30d stale, 14d close). Exempts
+  `pinned`, `security`, `good first issue`, and `help wanted` labels.
+- `reusable-pr-labeler.yml`: auto-label PRs by files changed (via
+  actions/labeler) using per-repo `.github/labeler.yml` config.
+
 - `reusable-actions-budget-guard.yml`: new reusable workflow that reads
   organization Actions usage and emits `usage_pct`, `warn_mode`, `degrade_mode`,
   and `summary` outputs for limit-aware CI orchestration.

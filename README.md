@@ -19,6 +19,9 @@
 >
 > CI Runtime (2026-03-13): upgraded reusable internals to `actions/checkout@v6`
 > and `actions/setup-node@v6` for Node24 readiness.
+>
+> Governance (2026-03-20): org-level PR template, CONTRIBUTING.md, PR size
+> labels, stale bot, and conventional commit title linting.
 
 ---
 
@@ -311,19 +314,16 @@ Forge Space is designed to run entirely for free:
 
 ## Contributing
 
-We welcome contributions of all kinds — bug reports, feature requests, documentation, and code.
+We welcome contributions of all kinds — bug reports, feature requests, documentation, and code. See our [Contributing Guide](CONTRIBUTING.md) for details.
 
-1. Fork the relevant repository
-2. Create a feature branch: `git checkout -b feature/your-feature`
-3. Make your changes and add tests
-4. Run the quality checks: `npm run validate` (or `make lint && make test`)
-5. Submit a Pull Request with a clear description
+**PR automation across all repos:**
+- Conventional commit PR titles enforced (`feat:`, `fix:`, `docs:`, etc.)
+- Automatic size labels (XS/S/M/L/XL) — XL PRs get a split suggestion
+- Stale issues/PRs auto-labeled after 30 days, closed after 14 more
+- Auto-labeling by area (CI, docs, tests, etc.) via file path patterns
 
-Please read the `CONTRIBUTING.md` in each repository for repo-specific guidelines.
-
-**Code standards across all Forge Space projects:**
+**Code standards:**
 - TypeScript strict mode
-- Conventional Commits (`feat:`, `fix:`, `docs:`, etc.)
 - 80%+ test coverage for new features
 - Prettier + ESLint enforced on every commit
 
