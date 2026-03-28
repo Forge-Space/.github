@@ -1,0 +1,39 @@
+title: "[RFC] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use RFCs for architecture and workflow proposals that need asynchronous review before execution.
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: What current state, constraint, or problem makes this RFC necessary?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: Describe the proposed direction.
+    validations:
+      required: true
+  - type: textarea
+    id: tradeoffs
+    attributes:
+      label: Tradeoffs
+      description: What are the expected benefits, costs, and risks?
+    validations:
+      required: true
+  - type: textarea
+    id: open_questions
+    attributes:
+      label: Open questions
+      description: What still needs review or decision?
+    validations:
+      required: true
+  - type: input
+    id: affected_scope
+    attributes:
+      label: Affected repository or scope
+      description: Optional repository, package, or workstream.

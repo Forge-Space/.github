@@ -1,0 +1,28 @@
+title: "[Announcement] "
+body:
+  - type: input
+    id: summary
+    attributes:
+      label: Summary
+      description: Short title or release summary.
+    validations:
+      required: true
+  - type: textarea
+    id: update
+    attributes:
+      label: Update
+      description: What changed, shipped, or was decided?
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact
+      description: Who is affected and what should they do next?
+    validations:
+      required: true
+  - type: input
+    id: links
+    attributes:
+      label: Links
+      description: Optional links to PRs, issues, docs, or roadmap items.

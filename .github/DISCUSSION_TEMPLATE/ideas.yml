@@ -1,0 +1,38 @@
+title: "[Idea] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use Ideas for early-stage opportunities. When the work becomes actionable, promote it into an Issue.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or opportunity
+      description: What opportunity, pain point, or observation is driving this idea?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Idea
+      description: What should we try or explore?
+    validations:
+      required: true
+  - type: textarea
+    id: value
+    attributes:
+      label: Expected value
+      description: Why would this be useful for users, maintainers, or the platform?
+    validations:
+      required: true
+  - type: input
+    id: affected_scope
+    attributes:
+      label: Affected repository or scope
+      description: Optional repository, package, or workstream.
+      placeholder: Forge-Space/branding-mcp
+  - type: textarea
+    id: constraints
+    attributes:
+      label: Constraints or open questions
+      description: What is unknown, risky, or still undecided?

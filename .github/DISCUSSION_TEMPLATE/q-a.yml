@@ -1,0 +1,24 @@
+title: "[Q&A] "
+body:
+  - type: input
+    id: area
+    attributes:
+      label: Area
+      description: Which repository, package, or workflow is this about?
+      placeholder: Forge-Space/mcp-gateway
+    validations:
+      required: true
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: What do you need help understanding or deciding?
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Share the context, attempts, or references that will help others answer.
+    validations:
+      required: true
