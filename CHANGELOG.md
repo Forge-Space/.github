@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `GOVERNANCE.md`: org-level GitHub work-management contract defining Discussions for intake, Issues for the actionable backlog, and Projects for roadmap/reporting.
+- Org-level issue forms in `.github/ISSUE_TEMPLATE/` for bugs, features, tasks, and epics.
+- Org-level discussion category forms in `.github/DISCUSSION_TEMPLATE/` for Ideas, RFCs, Q&A, and Announcements.
 - **Org-level PR template** (`.github/PULL_REQUEST_TEMPLATE.md`): lean
   What/Why/How format inspired by Next.js and Kubernetes, replacing
   overly verbose repo-specific templates across the ecosystem.
@@ -24,7 +27,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `pinned`, `security`, `good first issue`, and `help wanted` labels.
 - `reusable-pr-labeler.yml`: auto-label PRs by files changed (via
   actions/labeler) using per-repo `.github/labeler.yml` config.
-
 - `reusable-actions-budget-guard.yml`: new reusable workflow that reads
   organization Actions usage and emits `usage_pct`, `warn_mode`, `degrade_mode`,
   and `summary` outputs for limit-aware CI orchestration.
@@ -43,6 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Forge Space now documents the default GitHub flow as Discussions -> Issues -> Projects, with execution-only state kept outside board columns.
 - Updated reusable workflow/action internals to Node24-ready action majors:
   `actions/checkout@v6` and `actions/setup-node@v6` (no `workflow_call`
   contract changes).
