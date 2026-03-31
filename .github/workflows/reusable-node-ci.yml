@@ -95,8 +95,10 @@ jobs:
       - run: npm ci
       - name: Check for banned package versions
         run: |
-          if npm ls --all 2>/dev/null | grep -qE "axios@1\.14\.1"; then
-            echo "::error::BANNED: axios@1.14.1 is forbidden (security vulnerability)"
+          BANNED_PATTERN="axios@(0\.30\.4|1\.14\.1)"
+          if npm ls --all 2>/dev/null | grep -qE "$BANNED_PATTERN"; then
+            FOUND=$(npm ls --all 2>/dev/null | grep -E "$BANNED_PATTERN")
+            echo "::error::BANNED package detected: $FOUND"
             exit 1
           fi
           echo "No banned package versions detected"
