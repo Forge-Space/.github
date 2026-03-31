@@ -92,4 +92,12 @@ jobs:
         with:
           node-version: ${{ inputs.node-version }}
           cache: npm
-      - run: npm audit --audit-level=high || true
+      - run: npm ci
+      - name: Check for banned package versions
+        run: |
+          if npm ls --all 2>/dev/null | grep -qE "axios@1\.14\.1"; then
+            echo "::error::BANNED: axios@1.14.1 is forbidden (security vulnerability)"
+            exit 1
+          fi
+          echo "No banned package versions detected"
+      - run: npm audit --audit-level=high
