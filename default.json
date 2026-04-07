@@ -35,12 +35,14 @@
     },
     {
       "description": "Group all npm patches into one weekly PR",
+      "matchManagers": ["npm"],
       "matchUpdateTypes": ["patch"],
       "groupName": "all patches",
       "schedule": ["before 9am on monday"]
     },
     {
       "description": "Group all npm minors (non-major) into one weekly PR",
+      "matchManagers": ["npm"],
       "matchUpdateTypes": ["minor"],
       "groupName": "all minors",
       "schedule": ["before 9am on monday"]
