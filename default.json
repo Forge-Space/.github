@@ -1,0 +1,74 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Forge Space shared Renovate preset — batching, auto-merge, and deferred ecosystem blockers",
+  "extends": [
+    "config:recommended",
+    ":semanticCommits",
+    ":semanticCommitTypeAll(chore)",
+    ":dependencyDashboard",
+    "schedule:weekly",
+    "group:monorepos",
+    "group:recommended",
+    ":automergeMinor",
+    ":automergePatch",
+    ":automergeLinters",
+    ":automergeTesters",
+    ":automergeTypes"
+  ],
+  "labels": ["dependencies", "renovate"],
+  "rangeStrategy": "bump",
+  "prHourlyLimit": 4,
+  "prConcurrentLimit": 10,
+  "dependencyDashboardApproval": false,
+  "rebaseWhen": "conflicted",
+  "platformAutomerge": true,
+  "packageRules": [
+    {
+      "description": "Block TypeScript 6 until ecosystem catches up (ts-jest, @typescript-eslint, @astrojs/check)",
+      "matchPackageNames": ["typescript"],
+      "allowedVersions": "<6.0.0"
+    },
+    {
+      "description": "Block ESLint 10 until eslint-plugin-react supports it",
+      "matchPackageNames": ["eslint"],
+      "allowedVersions": "<10.0.0"
+    },
+    {
+      "description": "Group all npm patches into one weekly PR",
+      "matchManagers": ["npm"],
+      "matchUpdateTypes": ["patch"],
+      "groupName": "all patches",
+      "schedule": ["before 9am on monday"]
+    },
+    {
+      "description": "Group all npm minors (non-major) into one weekly PR",
+      "matchManagers": ["npm"],
+      "matchUpdateTypes": ["minor"],
+      "groupName": "all minors",
+      "schedule": ["before 9am on monday"]
+    },
+    {
+      "description": "Majors separate with no auto-merge — need review",
+      "matchUpdateTypes": ["major"],
+      "labels": ["dependencies", "renovate", "major-upgrade"],
+      "automerge": false
+    },
+    {
+      "description": "GitHub Actions updated monthly, grouped",
+      "matchManagers": ["github-actions"],
+      "groupName": "github-actions",
+      "schedule": ["before 9am on the first day of the month"],
+      "automerge": true
+    },
+    {
+      "description": "Python pip updates grouped (mcp-gateway)",
+      "matchManagers": ["pip_requirements", "pep621"],
+      "groupName": "python dependencies",
+      "schedule": ["before 9am on monday"]
+    }
+  ],
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "labels": ["security", "vulnerability"]
+  }
+}
